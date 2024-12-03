@@ -20,6 +20,7 @@
 #define SPEED 2000
 #define HIGH_SPEED 3000
 #define LOW_SPEED 1500
+#define DEFAULT_HEAD_TURN_DELAY 100
 
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
 #define LEFT 400 //ultrasonic sensor facing right
@@ -132,19 +133,19 @@ int distance() {
 void scan_surroundings_avoid(int fd) {
 
     pca9685PWMWrite(fd, SERVO_PIN, 0, LEFT);
-    delay(100);
+    delay(DEFAULT_HEAD_TURN_DELAY);
     if (distance()<OBSTACLE) stsAvoid0=1;
     else stsAvoid0=0;
     valAvoid[0]='0'+stsAvoid0;
     
     pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
-    delay(100);
+    delay(DEFAULT_HEAD_TURN_DELAY);
     if (distance()<OBSTACLE) stsAvoid1=1;
     else stsAvoid1=0;
     valAvoid[1]='0'+stsAvoid1;
     
     pca9685PWMWrite(fd, SERVO_PIN, 0, RIGHT);
-    delay(100);
+    delay(DEFAULT_HEAD_TURN_DELAY);
     if (distance()<OBSTACLE) stsAvoid2=1;
     else stsAvoid2=0;
     valAvoid[2]='0'+stsAvoid2;
@@ -154,19 +155,19 @@ void scan_surroundings_avoid(int fd) {
 void scan_surroundings_track(int fd) {
 
     pca9685PWMWrite(fd, SERVO_PIN, 0, LEFT);
-    delay(100);
+    delay(DEFAULT_HEAD_TURN_DELAY);
     if (distance()>OBSTACLE) stsTrack0=1;
     else stsTrack0=0;
     valTrack[0]='0'+stsTrack0;
     
     pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
-    delay(100);
+    delay(DEFAULT_HEAD_TURN_DELAY);
     if (distance()>OBSTACLE) stsTrack1=1;
     else stsTrack1=0;
     valTrack[1]='0'+stsTrack1;
     
     pca9685PWMWrite(fd, SERVO_PIN, 0, RIGHT);
-    delay(100);
+    delay(DEFAULT_HEAD_TURN_DELAY);
     if (distance()>OBSTACLE) stsTrack2=1;
     else stsTrack2=0;
     valTrack[2]='0'+stsTrack2;
