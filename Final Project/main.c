@@ -17,10 +17,12 @@
 #define IN2 5  //Left motor IN2 connect to wPi pin# 5 (Physical 18,BCM GPIO 24)
 #define IN3 2  //right motor IN3 connect to wPi pin# 2 (Physical 13,BCM GPIO 27)
 #define IN4 3  //right motor IN4 connect to wPi pin# 3 (Physical 15,BCM GPIO 22)
-#define SPEED 2000
+
+//Default speed 2000
+#define SPEED 4000
 #define HIGH_SPEED 3000
 #define LOW_SPEED 1500
-#define DEFAULT_HEAD_TURN_DELAY 100
+#define DEFAULT_HEAD_TURN_DELAY 200
 
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
 #define LEFT 400 //ultrasonic sensor facing right
@@ -273,7 +275,7 @@ int main(void)
 
             if (strcmp("100", valTrack) == 0) {
                 
-                printf("Tracking: [100] slight left");
+                printf("Tracking: [100] slight left\n");
                 go_left(fd, 0, SPEED);
                 delay(long_delay);
                 stop_car(fd);
@@ -282,7 +284,7 @@ int main(void)
             }
             if (strcmp("001", valTrack) == 0) {
                 
-                printf("Tracking: [001] slight right");
+                printf("Tracking: [001] slight right\n");
                 go_right(fd, SPEED, 0);
                 delay(long_delay);
                 stop_car(fd);
@@ -291,7 +293,7 @@ int main(void)
             }
             if (strcmp("110", valTrack) == 0) {
 
-                printf("Tracking: [110] sharp left");
+                printf("Tracking: [110] sharp left\n");
                 go_left(fd,LOW_SPEED, HIGH_SPEED);
                 delay(long_delay);
                 stop_car(fd);
@@ -299,7 +301,7 @@ int main(void)
             }
             if (strcmp("011", valTrack) == 0 ){ 
 
-                printf("Tracking: [011] sharp right");
+                printf("Tracking: [011] sharp right\n");
                 go_right(fd, HIGH_SPEED, LOW_SPEED);
                 delay(long_delay);
                 stop_car(fd);
@@ -307,7 +309,7 @@ int main(void)
             }
             if (strcmp("111", valTrack) == 0 || strcmp("101", valTrack) == 0 || strcmp("010", valTrack) == 0) {
                 
-                printf("Tracking: [111, 101, 010] forward");
+                printf("Tracking: [111, 101, 010] forward\n");
                 go_advance(fd, SPEED);
                 delay(long_delay);
                 stop_car(fd);
