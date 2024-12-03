@@ -6,7 +6,7 @@
 #define PIN_BASE 300
 #define MAX_PWM 4096
 #define HERTZ 50
-
+sadfhdsfa
 
 /*
  * wiringPi C library use different GPIO pin number system from BCM pin numberwhich are often used by Python, 
