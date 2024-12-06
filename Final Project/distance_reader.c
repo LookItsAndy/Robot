@@ -29,7 +29,7 @@ int distance() {
         //Get distance in cm
         int distance = travelTime / 58;
  		if (distance==0) distance=1000;
-        printf("Distance is: " distance);
+        printf("Distance is: %d", distance);
         return distance;
 }
 
