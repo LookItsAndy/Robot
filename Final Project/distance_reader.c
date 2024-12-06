@@ -1,4 +1,4 @@
-#include "pca9665/pca9665.h"
+#include "pca9685/pca9685.h"
 #include <wiringPi.h>
 #include <stdlib.h>
 #include <string.h>
