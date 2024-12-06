@@ -55,7 +55,7 @@ int main(void) {
 	}
 
 
-    while(true) {
+    while(1) {
         distance();
     }
 
