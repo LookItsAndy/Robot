@@ -1,5 +1,6 @@
 #include "pca9685/pca9685.h"
 #include <wiringPi.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #define PIN_BASE 300
@@ -9,6 +10,7 @@
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
 #define ECHO 29 //wPi#29=BCM GPIO#21=Physical pin#40
 #define TARGET_DISTANCE 10 //10cm in front the ultra sonic sensor is the target
+
 
 
 
