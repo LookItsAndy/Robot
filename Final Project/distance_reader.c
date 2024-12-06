@@ -36,7 +36,7 @@ int distance() {
 }
 
 
-void main(void) {
+int main(void) {
 
     if(wiringPiSetup()==-1){
             printf("setup wiringPi failed!\n");
