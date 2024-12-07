@@ -19,6 +19,8 @@
 #define HIGH_SPEED 3000
 #define MIN_SPEED 250
 
+
+// SPEED 2000 , factor divider is 1000 
 // SPEED divider should be based on how many digits SPEED has
 const float MOTOR_FACTOR = SPEED / 100;
 
@@ -161,7 +163,7 @@ int main(void) {
    
     while(1) {
         float current_distance = distance();
-        printf("Distance is: %d\n", current_distance);
+        printf("Distance is: %f\n", current_distance);
         delay(10);
         setMotors(fd, current_distance);
         
