@@ -80,7 +80,7 @@ float distance() {
 }
 
 // function to set variable speed to motors
-void setMotors(int fd, int current_distance) {
+void setMotors(int fd, float current_distance) {
     
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
