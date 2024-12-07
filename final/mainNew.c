@@ -106,14 +106,32 @@ void setMotors(int fd, int current_distance) {
     if(current_distance <= STOP_DISTANCE) leftSpeed = 0;
     if(current_distance <= STOP_DISTANCE) rightSpeed = 0;
 
+    if(rightSpeed == 0 && leftSpeed == 0) {
+        digitalWrite(IN1,LOW);
+        digitalWrite(IN2,LOW);
+        digitalWrite(IN3,LOW);
+        digitalWrite(IN4,LOW); 
+        pca9685PWMWrite(fd, ENA, 0, 0);
+        pca9685PWMWrite(fd, ENB, 0, 0);
+        printf("stopped motors");
+    } else {
 
-    printf("writing speed to motors\n");
-    digitalWrite(IN1,LOW);
-    digitalWrite(IN2,HIGH);
-    digitalWrite(IN3,LOW);
-    digitalWrite(IN4,HIGH); 
-    pca9685PWMWrite(fd, ENA, 0, leftSpeed);
-    pca9685PWMWrite(fd, ENB, 0, rightSpeed);
+
+        printf("writing speed to motors\n");
+
+        digitalWrite(IN1,LOW);
+        printf("IN1 low\n")
+        digitalWrite(IN2,HIGH);
+        printf("IN2 high");
+        digitalWrite(IN3,LOW);
+        printf("IN3 low\n");
+        digitalWrite(IN4,HIGH);
+        printf("IN4 high\n");
+
+        pca9685PWMWrite(fd, ENA, 0, leftSpeed);
+        pca9685PWMWrite(fd, ENB, 0, rightSpeed);
+        printf("move\n");
+    }
 }
 
 
@@ -137,10 +155,12 @@ int main(void) {
 
     pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
 
-
+   
     while(1) {
         int current_distance = distance();
         printf("Distance is: %d\n", current_distance);
         setMotors(fd, current_distance);
+        
     }
+
 }
