@@ -120,7 +120,7 @@ void setMotors(int fd, int current_distance) {
         printf("writing speed to motors\n");
 
         digitalWrite(IN1,LOW);
-        printf("IN1 low\n")
+        printf("IN1 low\n");
         digitalWrite(IN2,HIGH);
         printf("IN2 high");
         digitalWrite(IN3,LOW);
