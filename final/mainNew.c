@@ -82,6 +82,7 @@ void setMotors() {
     int current_distance = distance();
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
+    int fd = pca9685Setup(PIN_BASE, 0x40, HERTZ);
     
     if(current_distance <= MAX_DISTANCE) {
         float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
