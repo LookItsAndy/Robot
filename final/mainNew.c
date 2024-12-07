@@ -78,11 +78,11 @@ int distance() {
 }
 
 // function to set variable speed to motors
-void setMotors() {
+void setMotors(int fd) {
     int current_distance = distance();
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
-    int fd = pca9685Setup(PIN_BASE, 0x40, HERTZ);
+    
     
     if(current_distance <= MAX_DISTANCE) {
         float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
@@ -117,7 +117,7 @@ int main(void) {
 
         printf("Part 1: Object Tracking\n");
 
-    
+    int fd = pca9685Setup(PIN_BASE, 0x40, HERTZ);
     if (fd < 0)
     {
         printf("Error in setup\n");
@@ -130,6 +130,6 @@ int main(void) {
     while(1) {
         int current_distance = distance();
         printf("Distance is: %d\n", current_distance);
-        setMotors();
+        setMotors(fd);
     }
 }
