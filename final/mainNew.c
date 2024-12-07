@@ -79,12 +79,12 @@ int distance() {
 
 // function to set variable speed to motors
 void setMotors() {
-    int distance = distance();
+    int current_distance = distance();
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
     
-    if(distance <= MAX_DISTANCE) {
-        float magnitude = (float)(MAX_DISTANCE - distance) / DISTANCE_FACTOR;
+    if(current_distance <= MAX_DISTANCE) {
+        float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
         leftSpeed = SPEED - (magnitude * MOTOR_FACTOR);
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
     }
@@ -98,8 +98,8 @@ void setMotors() {
     }
     
     // check stop distance
-    if(distance <= STOP_DISTANCE) leftSpeed = 0;
-    if(distance <= STOP_DISTANCE) rightSpeed = 0;
+    if(current_distance <= STOP_DISTANCE) leftSpeed = 0;
+    if(current_distance <= STOP_DISTANCE) rightSpeed = 0;
 
     pca9685PWMWrite(fd, ENA, 0, leftSpeed);
     pca9685PWMWrite(fd, ENB, 0, rightSpeed);
