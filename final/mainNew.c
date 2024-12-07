@@ -114,8 +114,8 @@ void setMotors(int fd, int current_distance) {
         pca9685PWMWrite(fd, ENA, 0, 0);
         pca9685PWMWrite(fd, ENB, 0, 0);
         printf("stopped motors");
-    } else {
 
+    } else {
 
         printf("writing speed to motors\n");
 
@@ -131,6 +131,7 @@ void setMotors(int fd, int current_distance) {
         pca9685PWMWrite(fd, ENA, 0, leftSpeed);
         pca9685PWMWrite(fd, ENB, 0, rightSpeed);
         printf("move\n");
+        
     }
 }
 
@@ -159,6 +160,7 @@ int main(void) {
     while(1) {
         int current_distance = distance();
         printf("Distance is: %d\n", current_distance);
+        delay(10);
         setMotors(fd, current_distance);
         
     }
