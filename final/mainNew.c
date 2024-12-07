@@ -78,8 +78,8 @@ int distance() {
 }
 
 // function to set variable speed to motors
-void setMotors(int fd) {
-    int current_distance = distance();
+void setMotors(int fd, int current_distance) {
+    
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
     
@@ -130,6 +130,6 @@ int main(void) {
     while(1) {
         int current_distance = distance();
         printf("Distance is: %d\n", current_distance);
-        setMotors(fd);
+        setMotors(fd, current_distance);
     }
 }
