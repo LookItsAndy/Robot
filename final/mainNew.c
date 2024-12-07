@@ -15,9 +15,9 @@
 #define IN4 3  //right motor IN4 connect to wPi pin# 3 (Physical 15,BCM GPIO 22)
 
 //Default speed 2000
-#define SPEED 2000
+#define SPEED 500
 #define HIGH_SPEED 3000
-#define MIN_SPEED 1000
+#define MIN_SPEED 250
 const float MOTOR_FACTOR = SPEED / 1000;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
