@@ -84,11 +84,14 @@ void setMotors(int fd, int current_distance) {
     float rightSpeed = SPEED;
     
     
+    printf("comparing distance to max\n");
     if(current_distance <= MAX_DISTANCE) {
         float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
         leftSpeed = SPEED - (magnitude * MOTOR_FACTOR);
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
     }
+
+    printf("running limit checks");
     // lower limit check
     if(leftSpeed < MIN_SPEED) {
         leftSpeed = MIN_SPEED;
@@ -98,13 +101,21 @@ void setMotors(int fd, int current_distance) {
         rightSpeed = MIN_SPEED;
     }
     
+    printf("checking stop distance\n");
     // check stop distance
     if(current_distance <= STOP_DISTANCE) leftSpeed = 0;
     if(current_distance <= STOP_DISTANCE) rightSpeed = 0;
 
+
+    printf("writing speed to motors\n");
+    digitalWrite(IN1,LOW);
+    digitalWrite(IN2,HIGH);
+    digitalWrite(IN3,LOW);
+    digitalWrite(IN4,HIGH); 
     pca9685PWMWrite(fd, ENA, 0, leftSpeed);
     pca9685PWMWrite(fd, ENB, 0, rightSpeed);
 }
+
 
 int main(void) {
 
