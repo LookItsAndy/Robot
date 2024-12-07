@@ -18,7 +18,9 @@
 #define SPEED 500
 #define HIGH_SPEED 3000
 #define MIN_SPEED 250
-const float MOTOR_FACTOR = SPEED / 1000;
+
+// SPEED divider should be based on how many digits SPEED has
+const float MOTOR_FACTOR = SPEED / 100;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
@@ -122,7 +124,7 @@ void setMotors(int fd, int current_distance) {
         digitalWrite(IN1,LOW);
         printf("IN1 low\n");
         digitalWrite(IN2,HIGH);
-        printf("IN2 high");
+        printf("IN2 high\n");
         digitalWrite(IN3,LOW);
         printf("IN3 low\n");
         digitalWrite(IN4,HIGH);
