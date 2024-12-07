@@ -58,7 +58,7 @@ void setup() {
 }
 
 
-int distance() {
+float distance() {
         //Send trig pulse
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);
@@ -73,7 +73,7 @@ int distance() {
         long travelTime = micros() - startTime;
  
         //Get distance in cm
-        int distance = travelTime / 58;
+        float distance = travelTime / 58;
          if (distance==0) distance=1000;
         
         return distance;
@@ -160,7 +160,7 @@ int main(void) {
 
    
     while(1) {
-        int current_distance = distance();
+        float current_distance = distance();
         printf("Distance is: %d\n", current_distance);
         delay(10);
         setMotors(fd, current_distance);
