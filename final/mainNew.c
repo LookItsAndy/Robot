@@ -91,7 +91,7 @@ void setMotors(int fd, int current_distance) {
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
     }
 
-    printf("running limit checks");
+    printf("running limit checks\n");
     // lower limit check
     if(leftSpeed < MIN_SPEED) {
         leftSpeed = MIN_SPEED;
@@ -113,7 +113,7 @@ void setMotors(int fd, int current_distance) {
         digitalWrite(IN4,LOW); 
         pca9685PWMWrite(fd, ENA, 0, 0);
         pca9685PWMWrite(fd, ENB, 0, 0);
-        printf("stopped motors");
+        printf("stopped motors\n");
 
     } else {
 
