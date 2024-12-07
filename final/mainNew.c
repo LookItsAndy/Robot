@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define PIN_BASE 300
+#define MAX_PWM 4096
+#define HERTZ 50
 
 #define ENA 0  //left motor speed pin ENA connect to PCA9685 port 0
 #define ENB 1  //right motor speed pin ENB connect to PCA9685 port 1
@@ -15,13 +18,13 @@
 #define SPEED 2000
 #define HIGH_SPEED 3000
 #define MIN_SPEED 1000
-const MOTOR_FACTOR = SPEED / 1000
+const float MOTOR_FACTOR = SPEED / 1000;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
 #define MAX_DISTANCE 100.0 //cm
 #define STOP_DISTANCE 10.0 //cm
-const DISTANCE_FACTOR = MAX_DISTANCE / 1000
+const float DISTANCE_FACTOR = MAX_DISTANCE / 1000;
 
 
                                         
@@ -91,12 +94,12 @@ void setMotors() {
     }
 
     if(rightSpeed < MIN_SPEED) {
-        rightSpeed =MIN_SPEED;
+        rightSpeed = MIN_SPEED;
     }
     
     // check stop distance
-    if(distance <= STOP_DISTANCE) leftspeed = 0;
-    if(distance <= STOP_DISTANCE) rightspeed = 0;
+    if(distance <= STOP_DISTANCE) leftSpeed = 0;
+    if(distance <= STOP_DISTANCE) rightSpeed = 0;
 
     pca9685PWMWrite(fd, ENA, 0, leftSpeed);
     pca9685PWMWrite(fd, ENB, 0, rightSpeed);
