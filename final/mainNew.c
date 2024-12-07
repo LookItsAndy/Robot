@@ -61,6 +61,8 @@ void setup() {
 
 
 float distance() {
+
+        delay(20);
         //Send trig pulse
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);
@@ -83,7 +85,7 @@ float distance() {
 
 // function to set variable speed to motors
 void setMotors(int fd, float current_distance) {
-    
+    delay(20);
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
     
