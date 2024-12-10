@@ -30,6 +30,12 @@ const float MOTOR_FACTOR = SPEED / 1000;
 #define STOP_DISTANCE 10.0 //cm
 const float DISTANCE_FACTOR = MAX_DISTANCE / 1000;
 
+const float L_MOTOR_FACTOR = 1.0;
+const float R_MOTOR_FACTOR = 0.75;
+const float L_MOTOR_FACTOR_THRESHOLD = 80.0;
+const float R_MOTOR_FACTOR_THRESHOLD = 80.0;
+
+
 
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
@@ -59,7 +65,6 @@ void setup() {
 
 }
 
-
 float distance() {
 
         delay(20);
@@ -81,6 +86,13 @@ float distance() {
          if (distance==0) distance=1000;
         
         return distance;
+}
+
+void scan_surroundings_track(int fd) {
+    // brainstorm 
+    // robot will always be near the Stop distance so when it suddenly detects an increase in distance
+    // run a function that stops all motors, turn the head and pick which direction has the closest object
+    // and turn in that direction
 }
 
 // function to set variable speed to motors
@@ -107,6 +119,19 @@ void setMotors(int fd, float current_distance) {
         rightSpeed = MIN_SPEED;
     }
     
+    // add in motor compensation
+    if (leftSpeed <= L_MOTOR_FACTOR_THRESHOLD) {
+        leftSpeed *= L_MOTOR_FACTOR;
+
+    }
+
+    
+    if (rightSpeed <= R_MOTOR_FACTOR_THRESHOLD) {
+        rightSpeed *= R_MOTOR_FACTOR;
+
+    }
+
+
     printf("checking stop distance\n");
     // check stop distance
     if(current_distance <= STOP_DISTANCE) leftSpeed = 0;
@@ -141,7 +166,6 @@ void setMotors(int fd, float current_distance) {
     }
 }
 
-
 int main(void) {
 
     if(wiringPiSetup()==-1){
@@ -170,5 +194,4 @@ int main(void) {
         setMotors(fd, current_distance);
         
     }
-
 }
