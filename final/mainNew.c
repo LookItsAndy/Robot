@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define PIN_BASE 300
+#define MAX_PWM 4096
+#define HERTZ 50
 
 #define ENA 0  //left motor speed pin ENA connect to PCA9685 port 0
 #define ENB 1  //right motor speed pin ENB connect to PCA9685 port 1
@@ -15,13 +18,17 @@
 #define SPEED 2000
 #define HIGH_SPEED 3000
 #define MIN_SPEED 1000
-const MOTOR_FACTOR = SPEED / 1000
+
+
+// SPEED 2000 , factor divider is 1000 
+// SPEED divider should be based on how many digits SPEED has
+const float MOTOR_FACTOR = SPEED / 1000;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
 #define MAX_DISTANCE 100.0 //cm
 #define STOP_DISTANCE 10.0 //cm
-const DISTANCE_FACTOR = MAX_DISTANCE / 1000
+const float DISTANCE_FACTOR = MAX_DISTANCE / 1000;
 
 
                                         
@@ -53,7 +60,9 @@ void setup() {
 }
 
 
-int distance() {
+float distance() {
+
+        delay(20);
         //Send trig pulse
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);
@@ -68,39 +77,70 @@ int distance() {
         long travelTime = micros() - startTime;
  
         //Get distance in cm
-        int distance = travelTime / 58;
+        float distance = travelTime / 58;
          if (distance==0) distance=1000;
         
         return distance;
 }
 
 // function to set variable speed to motors
-void setMotors() {
-    int distance = distance();
+void setMotors(int fd, float current_distance) {
+    delay(20);
     float leftSpeed = SPEED;
     float rightSpeed = SPEED;
     
-    if(distance <= MAX_DISTANCE) {
-        float magnitude = (float)(MAX_DISTANCE - distance) / DISTANCE_FACTOR;
+    
+    printf("comparing distance to max\n");
+    if(current_distance <= MAX_DISTANCE) {
+        float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
         leftSpeed = SPEED - (magnitude * MOTOR_FACTOR);
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
     }
+
+    printf("running limit checks\n");
     // lower limit check
     if(leftSpeed < MIN_SPEED) {
         leftSpeed = MIN_SPEED;
     }
 
     if(rightSpeed < MIN_SPEED) {
-        rightSpeed =MIN_SPEED;
+        rightSpeed = MIN_SPEED;
     }
     
+    printf("checking stop distance\n");
     // check stop distance
-    if(distance <= STOP_DISTANCE) leftspeed = 0;
-    if(distance <= STOP_DISTANCE) rightspeed = 0;
+    if(current_distance <= STOP_DISTANCE) leftSpeed = 0;
+    if(current_distance <= STOP_DISTANCE) rightSpeed = 0;
 
-    pca9685PWMWrite(fd, ENA, 0, leftSpeed);
-    pca9685PWMWrite(fd, ENB, 0, rightSpeed);
+    if(rightSpeed == 0 && leftSpeed == 0) {
+        digitalWrite(IN1,LOW);
+        digitalWrite(IN2,LOW);
+        digitalWrite(IN3,LOW);
+        digitalWrite(IN4,LOW); 
+        pca9685PWMWrite(fd, ENA, 0, 0);
+        pca9685PWMWrite(fd, ENB, 0, 0);
+        printf("stopped motors\n");
+
+    } else {
+
+        printf("writing speed to motors\n");
+
+        digitalWrite(IN1,LOW);
+        printf("IN1 low\n");
+        digitalWrite(IN2,HIGH);
+        printf("IN2 high\n");
+        digitalWrite(IN3,LOW);
+        printf("IN3 low\n");
+        digitalWrite(IN4,HIGH);
+        printf("IN4 high\n");
+
+        pca9685PWMWrite(fd, ENA, 0, leftSpeed);
+        pca9685PWMWrite(fd, ENB, 0, rightSpeed);
+        printf("move\n");
+        
+    }
 }
+
 
 int main(void) {
 
@@ -111,9 +151,9 @@ int main(void) {
         }
         setup();
 
-        printf("Part 1: Object Tracking");
+        printf("Part 1: Object Tracking\n");
 
-        int fd = pca9685Setup(PIN_BASE, 0x40, HERTZ);
+    int fd = pca9685Setup(PIN_BASE, 0x40, HERTZ);
     if (fd < 0)
     {
         printf("Error in setup\n");
@@ -122,10 +162,13 @@ int main(void) {
 
     pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
 
-
+   
     while(1) {
-        int current_distance = distance();
-        printf("Distance is: %d\n", current_distance);
-        setMotors();
+        float current_distance = distance();
+        printf("Distance is: %f\n", current_distance);
+        delay(10);
+        setMotors(fd, current_distance);
+        
     }
+
 }
