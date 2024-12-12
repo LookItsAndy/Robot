@@ -15,26 +15,26 @@
 #define IN4 3  //right motor IN4 connect to wPi pin# 3 (Physical 15,BCM GPIO 22)
 
 //Default speed 2000
-#define SPEED 2000
-#define HIGH_SPEED 3000
-#define MIN_SPEED 1000
+#define SPEED 3000
+#define HIGH_SPEED 4000
+#define MIN_SPEED 2000
 
 
 // SPEED 2000 , factor divider is 1000 
 // SPEED divider should be based on how many digits SPEED has
-const float MOTOR_FACTOR = SPEED / 1000;
+const float MOTOR_FACTOR = SPEED / 100;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
-#define MAX_DISTANCE 100.0 //cm
-#define STOP_DISTANCE 10.0 //cm
-const float DISTANCE_FACTOR = MAX_DISTANCE / 1000;
+#define MAX_DISTANCE 10000.0 //cm
+#define STOP_DISTANCE 20.0 //cm
+const float DISTANCE_FACTOR = MAX_DISTANCE / 100;
 
-const float L_MOTOR_FACTOR = 1.0;
-const float R_MOTOR_FACTOR = 0.75;
-const float L_MOTOR_FACTOR_THRESHOLD = 80.0;
-const float R_MOTOR_FACTOR_THRESHOLD = 80.0;
-
+const float L_MOTOR_FACTOR = 0.82;
+const float R_MOTOR_FACTOR = 1.0;
+const float L_MOTOR_FACTOR_THRESHOLD = 8000.0;
+const float R_MOTOR_FACTOR_THRESHOLD = 8000.0;
+float current_distance = 0.00;
 
 
                                         
@@ -67,14 +67,19 @@ void setup() {
 
 float distance() {
 
-        delay(20);
+
+        //delay(100);
         //Send trig pulse
+	printf("sending sound\n");
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);
         digitalWrite(TRIG, LOW);
  
+	
         //Wait for echo start
-        while(digitalRead(ECHO) == LOW);
+        while(digitalRead(ECHO) == LOW) {
+		printf("waiting for echo\n");
+	}
  
         //Wait for echo end
         long startTime = micros();
@@ -120,7 +125,7 @@ void setMotors(int fd, float current_distance) {
     }
     
     // add in motor compensation
-    if (leftSpeed <= L_MOTOR_FACTOR_THRESHOLD) {
+    /*if (leftSpeed <= L_MOTOR_FACTOR_THRESHOLD) {
         leftSpeed *= L_MOTOR_FACTOR;
 
     }
@@ -129,7 +134,7 @@ void setMotors(int fd, float current_distance) {
     if (rightSpeed <= R_MOTOR_FACTOR_THRESHOLD) {
         rightSpeed *= R_MOTOR_FACTOR;
 
-    }
+    }*/
 
 
     printf("checking stop distance\n");
@@ -144,6 +149,8 @@ void setMotors(int fd, float current_distance) {
         digitalWrite(IN4,LOW); 
         pca9685PWMWrite(fd, ENA, 0, 0);
         pca9685PWMWrite(fd, ENB, 0, 0);
+	printf("LEFT_SPEED: %f \n", leftSpeed);
+	printf("RIGHT_SPEED: %f \n", rightSpeed);
         printf("stopped motors\n");
 
     } else {
@@ -151,14 +158,22 @@ void setMotors(int fd, float current_distance) {
         printf("writing speed to motors\n");
 
         digitalWrite(IN1,LOW);
-        printf("IN1 low\n");
+        //printf("IN1 low\n");
         digitalWrite(IN2,HIGH);
-        printf("IN2 high\n");
+        //printf("IN2 high\n");
         digitalWrite(IN3,LOW);
-        printf("IN3 low\n");
+        //printf("IN3 low\n");
         digitalWrite(IN4,HIGH);
-        printf("IN4 high\n");
+	//printf("IN4 high\n");
+	
+	    printf("LEFT_SPEED: %f \n", leftSpeed);
+	    printf("RIGHT_SPEED: %f \n", rightSpeed);
+	
 
+        leftSpeed *= L_MOTOR_FACTOR;
+	
+	
+	
         pca9685PWMWrite(fd, ENA, 0, leftSpeed);
         pca9685PWMWrite(fd, ENB, 0, rightSpeed);
         printf("move\n");
@@ -188,10 +203,13 @@ int main(void) {
 
    
     while(1) {
-        float current_distance = distance();
+        current_distance = distance();
         printf("Distance is: %f\n", current_distance);
         delay(10);
+	printf("before calling setMotor main\n");
         setMotors(fd, current_distance);
+	printf("\n-=-=-=-=-=-setMotors is called-=-=-=-=-=--=-\n");
         
     }
+	printf("\nCRASH\n");
 }

@@ -45,6 +45,9 @@ const float MOTOR_FACTOR = SPEED / 1000;
 #define STOP_DISTANCE 10.0 //cm
 const float DISTANCE_FACTOR = MAX_DISTANCE / 1000;
 
+const float L_MOTOR_FACTOR = 0.82;
+const float R_MOTOR_FACTOR = 1.0;
+
 int avoid = 1; // While loop for avoiding objects
 int track = 1; // While loop for tracking object
 int SL=(LEFT+CENTER)/2;
@@ -203,7 +206,7 @@ void setMotors(int fd, float current_distance) {
         printf("stopped motors\n");
 
     } else {
-
+        leftSpeed *= L_MOTOR_FACTOR;
         printf("writing speed to motors\n");
 
         digitalWrite(IN1,LOW);
