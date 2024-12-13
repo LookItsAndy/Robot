@@ -171,9 +171,9 @@ void setMotors(int fd, float current_distance) {
     } else if(rightSpeed < 0 && leftSpeed < 0) {
 
         digitalWrite(IN1,HIGH);
-        digitalWrite(IN2,HIGH);
+        digitalWrite(IN2,LOW);
         digitalWrite(IN3,HIGH);
-        digitalWrite(IN4,HIGH); 
+        digitalWrite(IN4,LOW); 
         leftSpeed *= L_MOTOR_FACTOR;
         pca9685PWMWrite(fd, ENA, 0, leftSpeed);
         pca9685PWMWrite(fd, ENB, 0, rightSpeed);
