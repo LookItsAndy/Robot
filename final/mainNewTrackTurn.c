@@ -67,33 +67,46 @@ double distance() {
 
 void turnHead(int fd) {
     double positions[5];
+    int headPositions[5] = [FULL_LEFT, SLIGHT_LEFT, CENTER, SLIGHT_RIGHT, FULL_RIGHT];
+    char headDirection[5][20] = ["FULL_LEFT", "SLIGHT_LEFT", "CENTER", "SLIGHT_RIGHT", "FULL_RIGHT"];
+    
+    for(int i = 0; i < 5; i++) {
+        pca9685PWMWrite(fd, SERVO_PIN, 0, headPositions[i]);
+        delay(DEFAULT_HEAD_TURN_DELAY);
+        positions[i] = distance();
 
-    pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_LEFT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[0] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[1] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[2] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_RIGHT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[3] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_RIGHT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[4] = distance();
-
-    for (int i = 0; i < 5; i++) {
-        printf("Distance: %.2lf   ", positions[i]);
-        if (i == 4) {
+        printf("%s: %.2lfcm  ", headDirection[i], positions[i]);
+        if (i ==4) {
             printf("\n");
         }
     }
+    
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_LEFT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[0] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[1] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[2] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_RIGHT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[3] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_RIGHT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[4] = distance();
+
+    // for (int i = 0; i < 5; i++) {
+    //     printf("Distance: %.2lf   ", positions[i]);
+    //     if (i == 4) {
+    //         printf("\n");
+    //     }
+    // }
 
 }
 
