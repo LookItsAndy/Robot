@@ -17,7 +17,7 @@
 //Default speed 2000
 #define SPEED 3000
 #define HIGH_SPEED 4000
-#define MIN_SPEED 1000
+#define MIN_SPEED 1500
 
 
 // SPEED 2000 , factor divider is 1000 
@@ -26,7 +26,7 @@ const float MOTOR_FACTOR = SPEED / 100;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
-#define MAX_DISTANCE 150.0 //cm
+#define MAX_DISTANCE 70.0 //cm
 #define STOP_DISTANCE 20.0 //cm
 const float DISTANCE_FACTOR = MAX_DISTANCE / 100;
 
@@ -117,17 +117,21 @@ void setMotors(int fd, float current_distance) {
         float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
         leftSpeed = SPEED - (magnitude * MOTOR_FACTOR);
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
+
+        if(leftSpeed < MIN_SPEED) {
+            leftSpeed = MIN_SPEED;
+        }
+
+        if(rightSpeed < MIN_SPEED) {
+            rightSpeed = MIN_SPEED;
+        }
+    } else {
+        rightSpeed = 0;
+        leftSpeed = 0;
     }
 
     //printf("running limit checks\n");
     // lower limit check
-    if(leftSpeed < MIN_SPEED) {
-        leftSpeed = MIN_SPEED;
-    }
-
-    if(rightSpeed < MIN_SPEED) {
-        rightSpeed = MIN_SPEED;
-    }
     
     // add in motor compensation
     /*if (leftSpeed <= L_MOTOR_FACTOR_THRESHOLD) {
