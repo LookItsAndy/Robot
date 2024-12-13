@@ -12,11 +12,11 @@
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
 
-const int FULL_LEFT 400 //ultrasonic sensor facing right
-const int SLIGHT_LEFT 340
-const int CENTER 280//ultrasonic sensor facing front
-const int SLIGHT_RIGHT 220
-const int FULL_RIGHT 160 //ultrasonic sensor facing left
+const int FULL_LEFT 400; //ultrasonic sensor facing right
+const int SLIGHT_LEFT 340;
+const int CENTER 280; //ultrasonic sensor facing front
+const int SLIGHT_RIGHT 220;
+const int FULL_RIGHT 160; //ultrasonic sensor facing left
 
 #define HEAD_POSITIONS 5
 
