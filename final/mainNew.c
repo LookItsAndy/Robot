@@ -22,19 +22,19 @@
 
 // SPEED 2000 , factor divider is 1000 
 // SPEED divider should be based on how many digits SPEED has
-const float MOTOR_FACTOR = SPEED / 100;
+const double MOTOR_FACTOR = SPEED / 100;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
 #define MAX_DISTANCE 50.0 //cm
 #define STOP_DISTANCE 20.0 //cm
-const float DISTANCE_FACTOR = MAX_DISTANCE / 100;
+const double DISTANCE_FACTOR = MAX_DISTANCE / 100;
 
-const float L_MOTOR_FACTOR = 0.815;
-const float R_MOTOR_FACTOR = 1.0;
-const float L_MOTOR_FACTOR_THRESHOLD = 8000.0;
-const float R_MOTOR_FACTOR_THRESHOLD = 8000.0;
-int current_distance = 0;
+const double L_MOTOR_FACTOR = 0.815;
+const double R_MOTOR_FACTOR = 1.0;
+const double L_MOTOR_FACTOR_THRESHOLD = 8000.0;
+const double R_MOTOR_FACTOR_THRESHOLD = 8000.0;
+double current_distance = 0.00;
 
 
                                         
@@ -67,7 +67,7 @@ void setup() {
 
 
 
-int distance() {
+double distance() {
 
 
         //delay(100);
@@ -94,7 +94,7 @@ int distance() {
         long travelTime = micros() - startTime;
  
         //Get distance in cm
-        int distance = travelTime / 58;
+        double distance = travelTime / 58;
          if (distance==0) distance=1000;
         
         return distance;
@@ -108,15 +108,15 @@ void scan_surroundings_track(int fd) {
 }
 
 // function to set variable speed to motors
-void setMotors(int fd, float current_distance) {
+void setMotors(int fd, double current_distance) {
     delay(20);
-    float leftSpeed = SPEED;
-    float rightSpeed = SPEED;
+    double leftSpeed = SPEED;
+    double rightSpeed = SPEED;
     
     
     printf("comparing distance to max\n");
     if(current_distance <= MAX_DISTANCE) {
-        float magnitude = (float)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
+        double magnitude = (double)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
         leftSpeed = SPEED - (magnitude * MOTOR_FACTOR);
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
 
@@ -232,7 +232,7 @@ int main(void) {
    
     while(1) {
         current_distance = distance();
-        printf("Distance is: %d\n", current_distance);
+        printf("Distance is: %.2lf\n", current_distance);
         delay(10);
 	    //printf("before calling setMotor main\n");
         setMotors(fd, current_distance);
