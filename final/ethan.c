@@ -27,7 +27,9 @@
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
 #define LEFT 400 //ultrasonic sensor facing right
 #define CENTER 280//ultrasonic sensor facing front
-#define RIGHT 160 //ultrasonic sensor facing left
+//default right is 160
+#define RIGHT 0 //ultrasonic sensor facing left
+
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
 #define ECHO 29 //wPi#29=BCM GPIO#21=Physical pin#40
 #define OBSTACLE 20
