@@ -27,7 +27,6 @@
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
 #define LEFT 400 //ultrasonic sensor facing right
 #define CENTER 280//ultrasonic sensor facing front
-//default right is 160
 #define RIGHT 160 //ultrasonic sensor facing left
 
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
@@ -147,6 +146,29 @@ int distance() {
         return distance;
 }
 
+void scan_surroundings_avoid(int fd) {
+
+    pca9685PWMWrite(fd, SERVO_PIN, 0, LEFT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    if (distance()<OBSTACLE) stsAvoid0=1;
+    else stsAvoid0=0;
+    valAvoid[0]='0'+stsAvoid0;
+    
+    pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    if (distance()<OBSTACLE) stsAvoid1=1;
+    else stsAvoid1=0;
+    valAvoid[1]='0'+stsAvoid1;
+    
+    pca9685PWMWrite(fd, SERVO_PIN, 0, RIGHT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    if (distance()<OBSTACLE) stsAvoid2=1;
+    else stsAvoid2=0;
+    valAvoid[2]='0'+stsAvoid2;
+            
+}
+
+
 void scan_surroundings_track(int fd) {
 
     pca9685PWMWrite(fd, SERVO_PIN, 0, LEFT);
@@ -261,7 +283,7 @@ int main(void)
     while (1)
     {
         while (track) {
-            scan_surroundings_track(fd);
+            scan_surroundings_avoid(fd);
             
             if (strcmp("100", valAvoid) == 0 || strcmp("001", valAvoid) == 0 || strcmp("110", valAvoid) == 0 || strcmp("011", valAvoid) == 0 ||
             strcmp("111", valAvoid) == 0 || strcmp("101", valAvoid) == 0 || strcmp("010", valAvoid) == 0) {

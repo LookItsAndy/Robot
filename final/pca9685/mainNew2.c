@@ -65,7 +65,27 @@ void setup() {
 
 }
 
+void scan_surroundings_avoid(int fd) {
 
+    pca9685PWMWrite(fd, SERVO_PIN, 0, LEFT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    if (distance()<OBSTACLE) stsAvoid0=1;
+    else stsAvoid0=0;
+    valAvoid[0]='0'+stsAvoid0;
+    
+    pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    if (distance()<OBSTACLE) stsAvoid1=1;
+    else stsAvoid1=0;
+    valAvoid[1]='0'+stsAvoid1;
+    
+    pca9685PWMWrite(fd, SERVO_PIN, 0, RIGHT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    if (distance()<OBSTACLE) stsAvoid2=1;
+    else stsAvoid2=0;
+    valAvoid[2]='0'+stsAvoid2;
+            
+}
 
 double distance() {
 
