@@ -153,7 +153,7 @@ void setMotors(int fd, float current_distance) {
 
     if(current_distance <= 10) {
         leftSpeed = -1000;   
-        rightSpeed = -1000
+        rightSpeed = -1000;
     }
 
 
