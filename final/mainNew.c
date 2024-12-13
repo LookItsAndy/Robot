@@ -17,7 +17,7 @@
 //Default speed 2000
 #define SPEED 3000
 #define HIGH_SPEED 4000
-#define MIN_SPEED 2000
+#define MIN_SPEED 1000
 
 
 // SPEED 2000 , factor divider is 1000 
@@ -70,7 +70,7 @@ double distance() {
 
         //delay(100);
         //Send trig pulse
-	printf("sending sound\n");
+
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);
         digitalWrite(TRIG, LOW);
@@ -119,7 +119,7 @@ void setMotors(int fd, float current_distance) {
         rightSpeed = SPEED - (magnitude * MOTOR_FACTOR);
     }
 
-    printf("running limit checks\n");
+    //printf("running limit checks\n");
     // lower limit check
     if(leftSpeed < MIN_SPEED) {
         leftSpeed = MIN_SPEED;
@@ -154,13 +154,13 @@ void setMotors(int fd, float current_distance) {
         digitalWrite(IN4,LOW); 
         pca9685PWMWrite(fd, ENA, 0, 0);
         pca9685PWMWrite(fd, ENB, 0, 0);
-	printf("LEFT_SPEED: %f \n", leftSpeed);
-	printf("RIGHT_SPEED: %f \n", rightSpeed);
-        printf("stopped motors\n");
+	    printf("LEFT_SPEED: %f \n", leftSpeed);
+	    printf("RIGHT_SPEED: %f \n", rightSpeed);
+        
 
     } else {
 
-        printf("writing speed to motors\n");
+        
 
         digitalWrite(IN1,LOW);
         //printf("IN1 low\n");
@@ -181,7 +181,7 @@ void setMotors(int fd, float current_distance) {
 	
         pca9685PWMWrite(fd, ENA, 0, leftSpeed);
         pca9685PWMWrite(fd, ENB, 0, rightSpeed);
-        printf("move\n");
+
         
     }
 }
