@@ -89,7 +89,10 @@ void turnHead(int fd) {
     positions[4] = distance();
 
     for (int i = 0; i < 5; i++) {
-        printf("Distance: %.2lf", positions[i]);
+        printf("Distance: %.2lf   ", positions[i]);
+        if (i == 4) {
+            printf("\n");
+        }
     }
 
 }
