@@ -166,7 +166,7 @@ int distance() {
         //Get distance in cm
         int distance = travelTime / 58;
  		if (distance==0) distance=1000;
- 		//printf("distance=%d\n",distance);
+ 		printf("distance=%d\n",distance);
         return distance;
 }
 void obstacle_avoid()
