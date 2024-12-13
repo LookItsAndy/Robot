@@ -21,7 +21,7 @@
 //Default speed 2000
 #define SPEED 4000
 #define HIGH_SPEED 3000
-#define LOW_SPEED 1500
+#define MIN_SPEED 1500
 #define DEFAULT_HEAD_TURN_DELAY 200
 
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
@@ -261,7 +261,7 @@ int main(void)
     while (1)
     {
         while (track) {
-            scan_surroundings_avoid(fd);
+            scan_surroundings_track(fd);
             
             if (strcmp("100", valAvoid) == 0 || strcmp("001", valAvoid) == 0 || strcmp("110", valAvoid) == 0 || strcmp("011", valAvoid) == 0 ||
             strcmp("111", valAvoid) == 0 || strcmp("101", valAvoid) == 0 || strcmp("010", valAvoid) == 0) {
