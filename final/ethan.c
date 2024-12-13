@@ -284,54 +284,55 @@ int main(void)
     {
         while (track) {
             scan_surroundings_avoid(fd);
+            scan_surroundings_track(fd);
             
-            if (strcmp("100", valAvoid) == 0 || strcmp("001", valAvoid) == 0 || strcmp("110", valAvoid) == 0 || strcmp("011", valAvoid) == 0 ||
-            strcmp("111", valAvoid) == 0 || strcmp("101", valAvoid) == 0 || strcmp("010", valAvoid) == 0) {
+            // if (strcmp("100", valAvoid) == 0 || strcmp("001", valAvoid) == 0 || strcmp("110", valAvoid) == 0 || strcmp("011", valAvoid) == 0 ||
+            // strcmp("111", valAvoid) == 0 || strcmp("101", valAvoid) == 0 || strcmp("010", valAvoid) == 0) {
 
-                track = 0;
-                avoid = 1;
+            //     track = 0;
+            //     avoid = 1;
 
-            }
-            if (strcmp("100", valTrack) == 0) {
+            // }
+            // if (strcmp("100", valTrack) == 0) {
                 
-                printf("Tracking: [100] slight left\n");
-                go_left(fd, 0, SPEED);
-                delay(long_delay);
-                stop_car(fd);
-                delay(short_delay);
+            //     printf("Tracking: [100] slight left\n");
+            //     go_left(fd, 0, SPEED);
+            //     delay(long_delay);
+            //     stop_car(fd);
+            //     delay(short_delay);
         
-            }
-            if (strcmp("001", valTrack) == 0) {
+            // }
+            // if (strcmp("001", valTrack) == 0) {
                 
-                printf("Tracking: [001] slight right\n");
-                go_right(fd, SPEED, 0);
-                delay(long_delay);
-                stop_car(fd);
-                delay(short_delay);
+            //     printf("Tracking: [001] slight right\n");
+            //     go_right(fd, SPEED, 0);
+            //     delay(long_delay);
+            //     stop_car(fd);
+            //     delay(short_delay);
         
-            }
-            if (strcmp("110", valTrack) == 0) {
+            // }
+            // if (strcmp("110", valTrack) == 0) {
 
-                printf("Tracking: [110] sharp left\n");
-                go_left(fd,MIN_SPEED, HIGH_SPEED);
-                delay(long_delay);
-                stop_car(fd);
-                delay(short_delay);
-            }
-            if (strcmp("011", valTrack) == 0 ){
+            //     printf("Tracking: [110] sharp left\n");
+            //     go_left(fd,MIN_SPEED, HIGH_SPEED);
+            //     delay(long_delay);
+            //     stop_car(fd);
+            //     delay(short_delay);
+            // }
+            // if (strcmp("011", valTrack) == 0 ){
 
-                printf("Tracking: [011] sharp right\n");
-                go_right(fd, HIGH_SPEED, MIN_SPEED);
-                delay(long_delay);
-                stop_car(fd);
-                delay(short_delay);
-            }
-            if (strcmp("111", valTrack) == 0 || strcmp("101", valTrack) == 0 || strcmp("010", valTrack) == 0) {
+            //     printf("Tracking: [011] sharp right\n");
+            //     go_right(fd, HIGH_SPEED, MIN_SPEED);
+            //     delay(long_delay);
+            //     stop_car(fd);
+            //     delay(short_delay);
+            // }
+            // if (strcmp("111", valTrack) == 0 || strcmp("101", valTrack) == 0 || strcmp("010", valTrack) == 0) {
                 
-                printf("Tracking: [111, 101, 010] forward\n");
-                float current_distance = distance();
-                setMotors(fd, current_distance);
-            }
+            //     printf("Tracking: [111, 101, 010] forward\n");
+            //     float current_distance = distance();
+            //     setMotors(fd, current_distance);
+            // }
 
         }
      
