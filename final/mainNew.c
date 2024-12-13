@@ -209,12 +209,12 @@ int main(void) {
    
     while(1) {
         current_distance = distance();
-        printf("Distance is: %f\n", current_distance);
+        printf("Distance is: %lf\n", current_distance);
         delay(10);
-	printf("before calling setMotor main\n");
+	    //printf("before calling setMotor main\n");
         setMotors(fd, current_distance);
-	printf("\n-=-=-=-=-=-setMotors is called-=-=-=-=-=--=-\n");
+	    //printf("\n-=-=-=-=-=-setMotors is called-=-=-=-=-=--=-\n");
         
     }
-	printf("\nCRASH\n");
+	
 }
