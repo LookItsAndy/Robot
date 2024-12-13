@@ -19,7 +19,7 @@
 #define FULL_RIGHT 160 //ultrasonic sensor facing left
 
 #define HEAD_POSITIONS 5
-const double positions[4]
+const double positions[4];
 
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
 #define ECHO 29 //wPi#29=BCM GPIO#21=Physical pin#40
