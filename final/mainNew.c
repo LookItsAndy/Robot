@@ -26,7 +26,7 @@ const float MOTOR_FACTOR = SPEED / 100;
 
 #define DEFAULT_HEAD_TURN_DELAY 200
 
-#define MAX_DISTANCE 10000.0 //cm
+#define MAX_DISTANCE 150.0 //cm
 #define STOP_DISTANCE 20.0 //cm
 const float DISTANCE_FACTOR = MAX_DISTANCE / 100;
 
