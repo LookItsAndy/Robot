@@ -291,7 +291,7 @@ int main(void)
             if (strcmp("110", valTrack) == 0) {
 
                 printf("Tracking: [110] sharp left\n");
-                go_left(fd,LOW_SPEED, HIGH_SPEED);
+                go_left(fd,MIN_SPEED, HIGH_SPEED);
                 delay(long_delay);
                 stop_car(fd);
                 delay(short_delay);
@@ -299,7 +299,7 @@ int main(void)
             if (strcmp("011", valTrack) == 0 ){
 
                 printf("Tracking: [011] sharp right\n");
-                go_right(fd, HIGH_SPEED, LOW_SPEED);
+                go_right(fd, HIGH_SPEED, MIN_SPEED);
                 delay(long_delay);
                 stop_car(fd);
                 delay(short_delay);
