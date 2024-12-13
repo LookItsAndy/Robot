@@ -68,7 +68,13 @@ double distance() {
 void turnHead(int fd) {
     double positions[5];
     //int headPositions[5] = [FULL_LEFT, SLIGHT_LEFT, CENTER, SLIGHT_RIGHT, FULL_RIGHT];
-    char headDirection[5][20] = ["FULL_LEFT", "SLIGHT_LEFT", "CENTER", "SLIGHT_RIGHT", "FULL_RIGHT"];
+    char headDirection[5][20] = {
+        "FULL_LEFT", 
+        "SLIGHT_LEFT", 
+        "CENTER", 
+        "SLIGHT_RIGHT", 
+        "FULL_RIGHT"
+    };
     
     // for(int i = 0; i < 5; i++) {
     //     pca9685PWMWrite(fd, SERVO_PIN, 0, headPositions[i]);
