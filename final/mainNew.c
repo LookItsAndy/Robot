@@ -30,11 +30,11 @@ const float MOTOR_FACTOR = SPEED / 100;
 #define STOP_DISTANCE 20.0 //cm
 const float DISTANCE_FACTOR = MAX_DISTANCE / 100;
 
-const float L_MOTOR_FACTOR = 0.82;
+const float L_MOTOR_FACTOR = 0.815;
 const float R_MOTOR_FACTOR = 1.0;
 const float L_MOTOR_FACTOR_THRESHOLD = 8000.0;
 const float R_MOTOR_FACTOR_THRESHOLD = 8000.0;
-float current_distance = 0.00;
+double current_distance = 0.00;
 
 
                                         
@@ -65,7 +65,7 @@ void setup() {
 
 }
 
-float distance() {
+double distance() {
 
 
         //delay(100);
@@ -87,7 +87,7 @@ float distance() {
         long travelTime = micros() - startTime;
  
         //Get distance in cm
-        float distance = travelTime / 58;
+        double distance = travelTime / 58;
          if (distance==0) distance=1000;
         
         return distance;
