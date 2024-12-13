@@ -142,7 +142,7 @@ void setMotors(int fd, float current_distance) {
     }*/
 
 
-    printf("checking stop distance\n");
+    
     // check stop distance
     if(current_distance <= STOP_DISTANCE) leftSpeed = 0;
     if(current_distance <= STOP_DISTANCE) rightSpeed = 0;
@@ -154,8 +154,8 @@ void setMotors(int fd, float current_distance) {
         digitalWrite(IN4,LOW); 
         pca9685PWMWrite(fd, ENA, 0, 0);
         pca9685PWMWrite(fd, ENB, 0, 0);
-	    printf("LEFT_SPEED: %f \n", leftSpeed);
-	    printf("RIGHT_SPEED: %f \n", rightSpeed);
+	    //printf("LEFT_SPEED: %f \n", leftSpeed);
+	   // printf("RIGHT_SPEED: %f \n", rightSpeed);
         
 
     } else {
@@ -171,8 +171,8 @@ void setMotors(int fd, float current_distance) {
         digitalWrite(IN4,HIGH);
 	//printf("IN4 high\n");
 	
-	    printf("LEFT_SPEED: %f \n", leftSpeed);
-	    printf("RIGHT_SPEED: %f \n", rightSpeed);
+	    //printf("LEFT_SPEED: %f \n", leftSpeed);
+	    //printf("RIGHT_SPEED: %f \n", rightSpeed);
 	
 
         leftSpeed *= L_MOTOR_FACTOR;
