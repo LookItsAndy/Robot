@@ -7,7 +7,7 @@
 #define MAX_PWM 4096
 #define HERTZ 50
 
-#define DEFAULT_HEAD_TURN_DELAY 150
+#define DEFAULT_HEAD_TURN_DELAY 1000
 
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
@@ -88,9 +88,9 @@ void turnHead(int fd) {
     delay(DEFAULT_HEAD_TURN_DELAY);
     positions[4] = distance();
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
         printf("Distance: %.2lf   ", positions[i]);
-        if (i == 4) {
+        if (i == 5) {
             printf("\n");
         }
     }
