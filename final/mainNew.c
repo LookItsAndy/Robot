@@ -77,8 +77,13 @@ double distance() {
  
 	
         //Wait for echo start
+        long timeoutStart = micros();
         while(digitalRead(ECHO) == LOW) {
-		printf("waiting for echo\n");
+            if(micros() - timeoutStart > 30000) {
+                printf("Timeout waiting for echo start\n")
+                return -1;
+            }
+		    
 	}
  
         //Wait for echo end
