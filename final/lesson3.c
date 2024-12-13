@@ -120,8 +120,8 @@ int distance() {
  
         //Get distance in cm
         int distance = travelTime / 58;
- 		if (distance==0) distance=1000;
 		printf("distance: %d", distance);
+ 		if (distance==0) distance=1000;
         return distance;
 }
 int main(void)
