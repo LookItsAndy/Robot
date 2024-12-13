@@ -65,7 +65,7 @@ double distance() {
         return distance;
 }
 
-int turnHead(int fd) {
+void turnHead(int fd) {
 
     pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT);
     delay(DEFAULT_HEAD_TURN_DELAY);
