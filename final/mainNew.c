@@ -34,7 +34,7 @@ const float L_MOTOR_FACTOR = 0.815;
 const float R_MOTOR_FACTOR = 1.0;
 const float L_MOTOR_FACTOR_THRESHOLD = 8000.0;
 const float R_MOTOR_FACTOR_THRESHOLD = 8000.0;
-double current_distance = 0.00;
+int current_distance = 0;
 
 
                                         
@@ -67,7 +67,7 @@ void setup() {
 
 
 
-double distance() {
+int distance() {
 
 
         //delay(100);
@@ -94,7 +94,7 @@ double distance() {
         long travelTime = micros() - startTime;
  
         //Get distance in cm
-        double distance = travelTime / 58;
+        int distance = travelTime / 58;
          if (distance==0) distance=1000;
         
         return distance;

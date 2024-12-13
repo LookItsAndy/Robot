@@ -19,7 +19,7 @@
 #define FULL_RIGHT 160 //ultrasonic sensor facing left
 
 #define HEAD_POSITIONS 5
-#define int positions[4]
+#define double positions[4]
 
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
 #define ECHO 29 //wPi#29=BCM GPIO#21=Physical pin#40
@@ -35,7 +35,7 @@ void setup() {
 
 }
 
-float distance() {
+double distance() {
 
         delay(20);
         //Send trig pulse
@@ -52,14 +52,33 @@ float distance() {
         long travelTime = micros() - startTime;
  
         //Get distance in cm
-        float distance = travelTime / 58;
+        double distance = travelTime / 58;
          if (distance==0) distance=1000;
         
         return distance;
 }
 
 int turnHead(int fd) {
-    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT)
+
+    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    positions[0] = distance();
+
+    pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_LEFT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    positions[1] = distance();
+
+    pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    positions[2] = distance();
+
+    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_RIGHT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    positions[3] = distance();
+
+    pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_RIGHT);
+    delay(DEFAULT_HEAD_TURN_DELAY);
+    positions[4] = distance();
 
 }
 
@@ -86,7 +105,7 @@ int main(void) {
 
    
     while(1) {
-        float current_distance = distance();
+        double current_distance = distance();
         printf("Distance is: %f\n", current_distance);
         delay(10);
         setMotors(fd, current_distance);

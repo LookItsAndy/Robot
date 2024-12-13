@@ -14,6 +14,13 @@
 #define IN3 2  //right motor IN3 connect to wPi pin# 2 (Physical 13,BCM GPIO 27)
 #define IN4 3  //right motor IN4 connect to wPi pin# 3 (Physical 15,BCM GPIO 22)
 
+//Servo motor
+#define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
+#define LEFT 400 //ultrasonic sensor facing right
+#define CENTER 280//ultrasonic sensor facing front
+#define RIGHT 160 //ultrasonic sensor facing left
+
+
 //Default speed 2000
 #define SPEED 3000
 #define HIGH_SPEED 4000
@@ -65,27 +72,6 @@ void setup() {
 
 }
 
-void scan_surroundings_avoid(int fd) {
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, LEFT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    if (distance()<OBSTACLE) stsAvoid0=1;
-    else stsAvoid0=0;
-    valAvoid[0]='0'+stsAvoid0;
-    
-    pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    if (distance()<OBSTACLE) stsAvoid1=1;
-    else stsAvoid1=0;
-    valAvoid[1]='0'+stsAvoid1;
-    
-    pca9685PWMWrite(fd, SERVO_PIN, 0, RIGHT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    if (distance()<OBSTACLE) stsAvoid2=1;
-    else stsAvoid2=0;
-    valAvoid[2]='0'+stsAvoid2;
-            
-}
 
 double distance() {
 
