@@ -148,10 +148,10 @@ void setMotors(int fd, float current_distance) {
 
     
     // check stop distance
-    if(current_distance <= STOP_DISTANCE && current_distance == 10) leftSpeed = 0; 
-    if(current_distance <= STOP_DISTANCE  && current_distance == 10) rightSpeed = 0;
+    if(current_distance <= STOP_DISTANCE && current_distance >= 10) leftSpeed = 0; 
+    if(current_distance <= STOP_DISTANCE  && current_distance >= 10) rightSpeed = 0;
 
-    if(current_distance <= 10) {
+    if(current_distance < 10) {
         leftSpeed = -1000;   
         rightSpeed = -1000;
     }
