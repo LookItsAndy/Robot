@@ -19,7 +19,7 @@
 #define FULL_RIGHT 160 //ultrasonic sensor facing left
 
 #define HEAD_POSITIONS 5
-#define double positions[4]
+const double positions[4]
 
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
 #define ECHO 29 //wPi#29=BCM GPIO#21=Physical pin#40
@@ -37,14 +37,21 @@ void setup() {
 
 double distance() {
 
-        delay(20);
+
         //Send trig pulse
         digitalWrite(TRIG, HIGH);
         delayMicroseconds(10);
         digitalWrite(TRIG, LOW);
  
         //Wait for echo start
-        while(digitalRead(ECHO) == LOW);
+        long timeoutStart = micros();
+        while(digitalRead(ECHO) == LOW) {
+            if(micros() - timeoutStart > 30000) {
+                printf("Timeout waiting for echo start\n");
+                return -1;
+            }
+		    
+	    }
  
         //Wait for echo end
         long startTime = micros();
