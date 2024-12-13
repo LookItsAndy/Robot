@@ -121,13 +121,13 @@ void setMotors(int fd, float current_distance) {
 
     //printf("running limit checks\n");
     // lower limit check
-    // if(leftSpeed < MIN_SPEED) {
-    //     leftSpeed = MIN_SPEED;
-    // }
+    if(leftSpeed < MIN_SPEED) {
+        leftSpeed = MIN_SPEED;
+    }
 
-    // if(rightSpeed < MIN_SPEED) {
-    //     rightSpeed = MIN_SPEED;
-    // }
+    if(rightSpeed < MIN_SPEED) {
+        rightSpeed = MIN_SPEED;
+    }
     
     // add in motor compensation
     /*if (leftSpeed <= L_MOTOR_FACTOR_THRESHOLD) {
