@@ -119,7 +119,7 @@ int main(void) {
     while(1) {
         
         delay(10);
-        turnHead();
+        turnHead(fd);
         
     }
 }
