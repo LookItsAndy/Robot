@@ -80,6 +80,10 @@ int turnHead(int fd) {
     delay(DEFAULT_HEAD_TURN_DELAY);
     positions[4] = distance();
 
+    for (int i = 0; i < 5; i++) {
+        printf("Distance: %.2lf", positions[i]);
+    }
+
 }
 
 
@@ -105,10 +109,9 @@ int main(void) {
 
    
     while(1) {
-        double current_distance = distance();
-        printf("Distance is: %f\n", current_distance);
+        
         delay(10);
-        setMotors(fd, current_distance);
+        turnHead();
         
     }
 }
