@@ -7,7 +7,7 @@
 #define MAX_PWM 4096
 #define HERTZ 50
 
-#define DEFAULT_HEAD_TURN_DELAY 120
+#define DEFAULT_HEAD_TURN_DELAY 150
 
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
