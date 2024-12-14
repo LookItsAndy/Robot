@@ -7,11 +7,23 @@
 #define MAX_PWM 4096
 #define HERTZ 50
 
-#define DEFAULT_HEAD_TURN_DELAY 150
+#define ENA 0  //left motor speed pin ENA connect to PCA9685 port 0
+#define ENB 1  //right motor speed pin ENB connect to PCA9685 port 1
+#define IN1 4  //Left motor IN1 connect to wPi pin# 4 (Physical 16,BCM GPIO 23)
+#define IN2 5  //Left motor IN2 connect to wPi pin# 5 (Physical 18,BCM GPIO 24)
+#define IN3 2  //right motor IN3 connect to wPi pin# 2 (Physical 13,BCM GPIO 27)
+#define IN4 3  //right motor IN4 connect to wPi pin# 3 (Physical 15,BCM GPIO 22)
+
+//Default speed 2000
+#define SPEED 3000
+#define HIGH_SPEED 4000
+#define MIN_SPEED 1500
+
 
                                         
+// Servo constants
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
-
+#define DEFAULT_HEAD_TURN_DELAY 150
 #define FULL_LEFT 400 //ultrasonic sensor facing right
 #define SLIGHT_LEFT 340
 #define CENTER 280 //ultrasonic sensor facing front
@@ -67,7 +79,17 @@ double distance() {
 
 void turnHead(int fd) {
     double positions[5];
-    //int headPositions[5] = [FULL_LEFT, SLIGHT_LEFT, CENTER, SLIGHT_RIGHT, FULL_RIGHT];
+
+
+    int headPositions[5] = {
+        FULL_LEFT, 
+        SLIGHT_LEFT, 
+        CENTER, 
+        SLIGHT_RIGHT, 
+        FULL_RIGHT
+    };
+
+
     char headDirection[5][20] = {
         "FULL_LEFT", 
         "SLIGHT_LEFT", 
@@ -76,43 +98,43 @@ void turnHead(int fd) {
         "FULL_RIGHT"
     };
     
-    // for(int i = 0; i < 5; i++) {
-    //     pca9685PWMWrite(fd, SERVO_PIN, 0, headPositions[i]);
-    //     delay(DEFAULT_HEAD_TURN_DELAY);
-    //     positions[i] = distance();
+    for(int i = 0; i < 5; i++) {
+        pca9685PWMWrite(fd, SERVO_PIN, 0, headPositions[i]);
+        delay(DEFAULT_HEAD_TURN_DELAY);
+        positions[i] = distance();
 
-    //     printf("%s: %.2lfcm  ", headDirection[i], positions[i]);
-    //     if (i ==4) {
-    //         printf("\n");
-    //     }
-    // }
-    
-    pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_LEFT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[0] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[1] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[2] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_RIGHT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[3] = distance();
-
-    pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_RIGHT);
-    delay(DEFAULT_HEAD_TURN_DELAY);
-    positions[4] = distance();
-
-    for (int i = 0; i < 5; i++) {
-        printf("Distance: %.2lf   ", positions[i]);
-        if (i == 4) {
+        printf("%s: %.2lfcm  ", headDirection[i], positions[i]);
+        if (i ==4) {
             printf("\n");
         }
     }
+    
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_LEFT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[0] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_LEFT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[1] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, CENTER);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[2] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, SLIGHT_RIGHT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[3] = distance();
+
+    // pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_RIGHT);
+    // delay(DEFAULT_HEAD_TURN_DELAY);
+    // positions[4] = distance();
+
+    // for (int i = 0; i < 5; i++) {
+    //     printf("Distance: %.2lf   ", positions[i]);
+    //     if (i == 4) {
+    //         printf("\n");
+    //     }
+    // }
 
 }
 
