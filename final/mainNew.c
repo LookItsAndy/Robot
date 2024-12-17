@@ -24,8 +24,6 @@
 // SPEED divider should be based on how many digits SPEED has
 const double MOTOR_FACTOR = SPEED / 100;
 
-#define DEFAULT_HEAD_TURN_DELAY 200
-
 #define MAX_DISTANCE 50.0 //cm
 #define STOP_DISTANCE 20.0 //cm
 const double DISTANCE_FACTOR = MAX_DISTANCE / 100;
