@@ -145,7 +145,7 @@ void turnHead(int fd) {
     for(int i = 0; i < 5; i++) {
         double min = 0.0;
         double temp = 0.0;
-        char direction;
+        char *direction;
 
         if (i == 0) {
             min = positions[i];
