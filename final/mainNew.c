@@ -32,8 +32,10 @@ const double L_MOTOR_FACTOR = 0.815;
 const double R_MOTOR_FACTOR = 1.0;
 const double L_MOTOR_FACTOR_THRESHOLD = 8000.0;
 const double R_MOTOR_FACTOR_THRESHOLD = 8000.0;
-double current_distance = 0.00;
 
+double current_distance = 0.00;
+double leftTurnFactor = 0.0;
+double rightTurnFactor = 0.0;
 
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
@@ -174,26 +176,25 @@ void turnHead(int fd) {
     for(int i = 0; i < 5; i++) {
         double min = 0.0;
         double temp = 0.0;
-        char *direction;
+        char direction;
 
         if (i == 0) {
             min = positions[i];
-            *direction = headDirection[i];
+            direction = headDirection[i];
         }
 
         temp = positions[i];
 
         if (temp < min) {
             min = temp;
-            *direction = headDirection[i];
+            direction = headDirection[i];
         }
 
-        turnRobot(*direction);
+        turnRobot(direction);
     }
 }
 
-double leftTurnFactor = 0.0;
-double rightTurnFactor = 0.0;
+
 
 
 
