@@ -149,42 +149,43 @@ void turnHead(int fd) {
 
         if (i == 0) {
             min = positions[i];
+            *direction = headDirection[i];
         }
 
         temp = positions[i];
 
         if (temp < min) {
             min = temp;
-            direction = headDirection[i];
+            *direction = headDirection[i];
         }
 
-        turnRobot(direction);
+        turnRobot(*direction);
     }
 }
 
 double leftTurnFactor = 0.0;
 double rightTurnFactor = 0.0;
 
-void turnRobot (char direction) {
+void turnRobot (char *direction) {
 
-    if (direction == 'FULL_LEFT') {
+    if (*direction == 'FULL_LEFT') {
         leftTurnFactor = 0.75;
         rightTurnFactor = 1;
     }
-    else if(direction == 'SLIGHT_LEFT') {
+    else if(*direction == 'SLIGHT_LEFT') {
         leftTurnFactor = 0.9;
         rightTurnFactor = 1;
         
     }
-    else if (direction == 'CENTER') {
+    else if (*direction == 'CENTER') {
         leftTurnFactor = 1.0;
         rightTurnFactor = 1.0;
     }
-    else if (direction == 'SLIGHT_RIGHT') {
+    else if (*direction == 'SLIGHT_RIGHT') {
         leftTurnFactor = 1;
         rightTurnFactor = 0.9;
     }
-    else if (direction == 'FULL_RIGHT') {
+    else if (*direction == 'FULL_RIGHT') {
         leftTurnFactor = 1;
         rightTurnFactor = 0.75;
     } else

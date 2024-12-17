@@ -40,7 +40,7 @@
 #define long_delay  300
 #define extra_long_delay 400
 
-double positions[5];
+
 
 double leftTurnFactor = 0.0;
 double rightTurnFactor = 0.0;
@@ -84,7 +84,7 @@ double distance() {
 
 void turnHead(int fd) {
 
-
+    double positions[5];
     int headPositions[5] = {
         FULL_LEFT, 
         SLIGHT_LEFT, 
