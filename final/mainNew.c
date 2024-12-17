@@ -108,23 +108,28 @@ double distance() {
 
 void turnRobot (int direction) {
 
+    //full left
     if (direction == 0) {
         leftTurnFactor = 0.75;
         rightTurnFactor = 1;
     }
+    //slight left
     else if(direction == 1) {
         leftTurnFactor = 0.9;
         rightTurnFactor = 1;
         
     }
+    //center
     else if (direction == 2) {
         leftTurnFactor = 1.0;
         rightTurnFactor = 1.0;
     }
+    //slight right
     else if (direction == 3) {
         leftTurnFactor = 1;
         rightTurnFactor = 0.9;
     }
+    //full right
     else if (direction == 4) {
         leftTurnFactor = 1;
         rightTurnFactor = 0.75;
@@ -147,11 +152,11 @@ void turnHead(int fd) {
     };
 
     int intHeadDirection[5] = {
-        0,
-        1,
-        2,
-        3,
-        4
+        0, //full left
+        1, //slight left
+        2, //center
+        3, //slight right
+        4 //full right
     };
 
     char headDirection[5][20] = {
