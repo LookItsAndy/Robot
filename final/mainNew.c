@@ -104,11 +104,33 @@ double distance() {
         return distance;
 }
 
-void scan_surroundings_track(int fd) {
-    // brainstorm 
-    // robot will always be near the Stop distance so when it suddenly detects an increase in distance
-    // run a function that stops all motors, turn the head and pick which direction has the closest object
-    // and turn in that direction
+void turnRobot (int direction) {
+
+    if (direction == 0) {
+        leftTurnFactor = 0.75;
+        rightTurnFactor = 1;
+    }
+    else if(direction == 1) {
+        leftTurnFactor = 0.9;
+        rightTurnFactor = 1;
+        
+    }
+    else if (direction == 2) {
+        leftTurnFactor = 1.0;
+        rightTurnFactor = 1.0;
+    }
+    else if (direction == 3) {
+        leftTurnFactor = 1;
+        rightTurnFactor = 0.9;
+    }
+    else if (direction == 4) {
+        leftTurnFactor = 1;
+        rightTurnFactor = 0.75;
+    } else
+    {
+        leftTurnFactor = 0;
+        rightTurnFactor = 0;
+    }
 }
 
 void turnHead(int fd) {
@@ -122,7 +144,14 @@ void turnHead(int fd) {
         FULL_RIGHT
     };
 
-    
+    int intHeadDirection[5] = {
+        0,
+        1,
+        2,
+        3,
+        4
+    };
+
     char headDirection[5][20] = {
         "FULL_LEFT", 
         "SLIGHT_LEFT", 
@@ -166,34 +195,7 @@ void turnHead(int fd) {
 double leftTurnFactor = 0.0;
 double rightTurnFactor = 0.0;
 
-void turnRobot (char *direction) {
 
-    if (*direction == 'FULL_LEFT') {
-        leftTurnFactor = 0.75;
-        rightTurnFactor = 1;
-    }
-    else if(*direction == 'SLIGHT_LEFT') {
-        leftTurnFactor = 0.9;
-        rightTurnFactor = 1;
-        
-    }
-    else if (*direction == 'CENTER') {
-        leftTurnFactor = 1.0;
-        rightTurnFactor = 1.0;
-    }
-    else if (*direction == 'SLIGHT_RIGHT') {
-        leftTurnFactor = 1;
-        rightTurnFactor = 0.9;
-    }
-    else if (*direction == 'FULL_RIGHT') {
-        leftTurnFactor = 1;
-        rightTurnFactor = 0.75;
-    } else
-    {
-        leftTurnFactor = 0;
-        rightTurnFactor = 0;
-    }
-}
 
 // function to set variable speed to motors
 void setMotors(int fd, double current_distance) {
@@ -324,6 +326,7 @@ int main(void) {
         current_distance = distance();
         printf("Distance is: %.2lf\n", current_distance);
         delay(10);
+        turnHead(fd);
 	    //printf("before calling setMotor main\n");
         setMotors(fd, current_distance);
 	    //printf("\n-=-=-=-=-=-setMotors is called-=-=-=-=-=--=-\n");
