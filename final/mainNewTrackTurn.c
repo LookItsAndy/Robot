@@ -40,6 +40,11 @@
 #define long_delay  300
 #define extra_long_delay 400
 
+double positions[5];
+
+double leftTurnFactor = 0.0;
+double rightTurnFactor = 0.0;
+
 void setup() {
 
  pinMode(TRIG,OUTPUT);
@@ -78,7 +83,6 @@ double distance() {
 }
 
 void turnHead(int fd) {
-    double positions[5];
 
 
     int headPositions[5] = {
@@ -108,6 +112,27 @@ void turnHead(int fd) {
             printf("\n");
         }
     }
+
+    for(int i = 0; i < 5; i++) {
+        double min = 0.0;
+        double temp = 0.0;
+        char direction;
+
+        if (i == 0) {
+            min = positions[i];
+        }
+
+        temp = positions[i];
+
+        if (temp < min) {
+            min = temp;
+            direction = headDirection[i]
+        }
+
+        turnRobot(direction);
+    }
+
+
     
     // pca9685PWMWrite(fd, SERVO_PIN, 0, FULL_LEFT);
     // delay(DEFAULT_HEAD_TURN_DELAY);
@@ -137,6 +162,43 @@ void turnHead(int fd) {
     // }
 
 }
+
+void turnRobot (char direction) {
+
+    if (direction == "FULL_LEFT") {
+        leftTurnFactor = 0.75;
+        rightTurnFactor = 1;
+    }
+    else if(direction == "SLIGHT_LEFT") {
+        leftTurnFactor = 0.9;
+        rightTurnFactor = 1;
+        
+    }
+    else if (direction == "CENTER") {
+        leftTurnFactor = 1.0;
+        rightTurnFactor = 1.0;
+    }
+    else if (direction == "SLIGHT_RIGHT") {
+        leftTurnFactor = 1;
+        rightTurnFactor = 0.9;
+    }
+    else if (direction == "FULL_RIGHT") {
+        leftTurnFactor = 1;
+        rightTurnFactor = 0.75;
+    } else
+    {
+        leftTurnFactor = 0;
+        rightTurnFactor = 0;
+    }
+
+    
+
+    
+
+}
+
+
+
 
 
 int main(void) {

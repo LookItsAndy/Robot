@@ -39,9 +39,15 @@ double current_distance = 0.00;
 
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
-#define LEFT 400 //ultrasonic sensor facing right
-#define CENTER 280//ultrasonic sensor facing front
-#define RIGHT 160 //ultrasonic sensor facing left
+#define DEFAULT_HEAD_TURN_DELAY 150
+#define FULL_LEFT 400 //ultrasonic sensor facing right
+#define SLIGHT_LEFT 340
+#define CENTER 280 //ultrasonic sensor facing front
+#define SLIGHT_RIGHT 220
+#define FULL_RIGHT 160 //ultrasonic sensor facing left
+
+#define HEAD_POSITIONS 5
+
 #define TRIG 28 //wPi#28=BCM GPIO#20=Physical pin#38
 #define ECHO 29 //wPi#29=BCM GPIO#21=Physical pin#40
 #define OBSTACLE 20
@@ -105,6 +111,89 @@ void scan_surroundings_track(int fd) {
     // robot will always be near the Stop distance so when it suddenly detects an increase in distance
     // run a function that stops all motors, turn the head and pick which direction has the closest object
     // and turn in that direction
+}
+
+void turnHead(int fd) {
+
+
+    int headPositions[5] = {
+        FULL_LEFT, 
+        SLIGHT_LEFT, 
+        CENTER, 
+        SLIGHT_RIGHT, 
+        FULL_RIGHT
+    };
+
+
+    char headDirection[5][20] = {
+        "FULL_LEFT", 
+        "SLIGHT_LEFT", 
+        "CENTER", 
+        "SLIGHT_RIGHT", 
+        "FULL_RIGHT"
+    };
+    
+    for(int i = 0; i < 5; i++) {
+        pca9685PWMWrite(fd, SERVO_PIN, 0, headPositions[i]);
+        delay(DEFAULT_HEAD_TURN_DELAY);
+        positions[i] = distance();
+
+        printf("%s: %.2lfcm  ", headDirection[i], positions[i]);
+        if (i ==4) {
+            printf("\n");
+        }
+    }
+
+    for(int i = 0; i < 5; i++) {
+        double min = 0.0;
+        double temp = 0.0;
+        char direction;
+
+        if (i == 0) {
+            min = positions[i];
+        }
+
+        temp = positions[i];
+
+        if (temp < min) {
+            min = temp;
+            direction = headDirection[i]
+        }
+
+        turnRobot(direction);
+    }
+}
+
+double leftTurnFactor = 0.0;
+double rightTurnFactor = 0.0;
+
+void turnRobot (char direction) {
+
+    if (direction == "FULL_LEFT") {
+        leftTurnFactor = 0.75;
+        rightTurnFactor = 1;
+    }
+    else if(direction == "SLIGHT_LEFT") {
+        leftTurnFactor = 0.9;
+        rightTurnFactor = 1;
+        
+    }
+    else if (direction == "CENTER") {
+        leftTurnFactor = 1.0;
+        rightTurnFactor = 1.0;
+    }
+    else if (direction == "SLIGHT_RIGHT") {
+        leftTurnFactor = 1;
+        rightTurnFactor = 0.9;
+    }
+    else if (direction == "FULL_RIGHT") {
+        leftTurnFactor = 1;
+        rightTurnFactor = 0.75;
+    } else
+    {
+        leftTurnFactor = 0;
+        rightTurnFactor = 0;
+    }
 }
 
 // function to set variable speed to motors
@@ -196,9 +285,11 @@ void setMotors(int fd, double current_distance) {
 	
 	    //printf("LEFT_SPEED: %f \n", leftSpeed);
 	    //printf("RIGHT_SPEED: %f \n", rightSpeed);
-	
 
         leftSpeed *= L_MOTOR_FACTOR;
+
+        leftSpeed *= leftTurnFactor;
+        rightSpeed *= rightTurnFactor;
 	
 	
 	
