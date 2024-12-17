@@ -176,18 +176,18 @@ void turnHead(int fd) {
     for(int i = 0; i < 5; i++) {
         double min = 0.0;
         double temp = 0.0;
-        char direction;
+        int direction;
 
         if (i == 0) {
             min = positions[i];
-            direction = headDirection[i];
+            direction = intHeadDirection[i];
         }
 
         temp = positions[i];
 
         if (temp < min) {
             min = temp;
-            direction = headDirection[i];
+            direction = intHeadDirection[i];
         }
 
         turnRobot(direction);
