@@ -115,7 +115,7 @@ void scan_surroundings_track(int fd) {
 
 void turnHead(int fd) {
 
-
+    double positions[5];
     int headPositions[5] = {
         FULL_LEFT, 
         SLIGHT_LEFT, 
