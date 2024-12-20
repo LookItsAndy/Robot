@@ -24,7 +24,7 @@
 // SPEED divider should be based on how many digits SPEED has
 const double MOTOR_FACTOR = SPEED / 100;
 
-#define MAX_DISTANCE 50.0 //cm
+#define MAX_DISTANCE 70.0 //cm
 #define STOP_DISTANCE 20.0 //cm
 const double DISTANCE_FACTOR = MAX_DISTANCE / 100;
 
@@ -36,6 +36,8 @@ const double R_MOTOR_FACTOR_THRESHOLD = 8000.0;
 double current_distance = 0.00;
 double leftTurnFactor = 0.0;
 double rightTurnFactor = 0.0;
+
+double min = 0.0;
 
                                         
 #define SERVO_PIN 15  //right motor speed pin ENB connect to PCA9685 port 1
@@ -108,35 +110,37 @@ double distance() {
 
 void turnRobot (int direction) {
 
-    //full left
     if (direction == 0) {
-        leftTurnFactor = 0.75;
+        leftTurnFactor = 0.70;
         rightTurnFactor = 1;
+	printf("turning LEFT\n");
+	
     }
-    //slight left
     else if(direction == 1) {
-        leftTurnFactor = 0.9;
+        leftTurnFactor = 0.85;
         rightTurnFactor = 1;
+	printf("turning left\n");
         
     }
-    //center
     else if (direction == 2) {
         leftTurnFactor = 1.0;
         rightTurnFactor = 1.0;
+	printf("turning CENTER\n");
     }
-    //slight right
     else if (direction == 3) {
         leftTurnFactor = 1;
-        rightTurnFactor = 0.9;
+        rightTurnFactor = 0.85;
+	printf("turning right\n");
     }
-    //full right
     else if (direction == 4) {
         leftTurnFactor = 1;
-        rightTurnFactor = 0.75;
+        rightTurnFactor = 0.70;
+	printf("turning RIGHT\n");
     } else
     {
         leftTurnFactor = 0;
         rightTurnFactor = 0;
+	printf("STOP\n");
     }
 }
 
@@ -152,11 +156,11 @@ void turnHead(int fd) {
     };
 
     int intHeadDirection[5] = {
-        0, //full left
-        1, //slight left
-        2, //center
-        3, //slight right
-        4 //full right
+        0,
+        1,
+        2,
+        3,
+        4
     };
 
     char headDirection[5][20] = {
@@ -177,26 +181,30 @@ void turnHead(int fd) {
             printf("\n");
         }
     }
-
-    for(int i = 0; i < 5; i++) {
-        double min = 0.0;
-        double temp = 0.0;
-        int direction;
-
-        if (i == 0) {
-            min = positions[i];
-            direction = intHeadDirection[i];
-        }
-
-        temp = positions[i];
-
-        if (temp < min) {
-            min = temp;
-            direction = intHeadDirection[i];
-        }
-
+	
+	int direction = 0;
+    
+	for(int i = 0; i < 5; i++)
+	{
+        	//double min = 0.0;
+	        double temp = 0.0;
+	        
+	
+	        if (i == 0) {
+	            min = positions[i];
+	            direction = intHeadDirection[i];
+	        }
+	
+	        temp = positions[i];
+	
+	        if (temp < min) {
+	            min = temp;
+	            direction = intHeadDirection[i];
+		// current_distance potentially not updating min distance
+		    current_distance = min;
+	        }
+	}
         turnRobot(direction);
-    }
 }
 
 
@@ -210,7 +218,7 @@ void setMotors(int fd, double current_distance) {
     double rightSpeed = SPEED;
     
     
-    printf("comparing distance to max\n");
+    //printf("comparing distance to max\n");
     if(current_distance <= MAX_DISTANCE) {
         double magnitude = (double)(MAX_DISTANCE - current_distance) / DISTANCE_FACTOR;
         leftSpeed = SPEED - (magnitude * MOTOR_FACTOR);
@@ -249,7 +257,7 @@ void setMotors(int fd, double current_distance) {
     if(current_distance <= STOP_DISTANCE && current_distance >= 10) leftSpeed = 0; 
     if(current_distance <= STOP_DISTANCE  && current_distance >= 10) rightSpeed = 0;
 
-    if(current_distance < 10) {
+    if(current_distance < 5) {
         leftSpeed = -leftSpeed;   
         rightSpeed = -rightSpeed;
     }
@@ -266,6 +274,7 @@ void setMotors(int fd, double current_distance) {
 	   // printf("RIGHT_SPEED: %f \n", rightSpeed);
         
 
+	// reverse function
     } else if(rightSpeed < 0 && leftSpeed < 0) {
 
         digitalWrite(IN1,HIGH);
@@ -293,7 +302,7 @@ void setMotors(int fd, double current_distance) {
 	    //printf("LEFT_SPEED: %f \n", leftSpeed);
 	    //printf("RIGHT_SPEED: %f \n", rightSpeed);
 
-        leftSpeed *= L_MOTOR_FACTOR;
+        //leftSpeed *= L_MOTOR_FACTOR;
 
         leftSpeed *= leftTurnFactor;
         rightSpeed *= rightTurnFactor;
@@ -329,10 +338,11 @@ int main(void) {
 
    
     while(1) {
-        current_distance = distance();
-        printf("Distance is: %.2lf\n", current_distance);
-        delay(10);
         turnHead(fd);
+	//current_distance = distance();
+	current_distance = min;
+        printf("Distance is: %.2lf\n", current_distance);
+	delay(10);
 	    //printf("before calling setMotor main\n");
         setMotors(fd, current_distance);
 	    //printf("\n-=-=-=-=-=-setMotors is called-=-=-=-=-=--=-\n");
