@@ -34,8 +34,8 @@ const double L_MOTOR_FACTOR_THRESHOLD = 8000.0;
 const double R_MOTOR_FACTOR_THRESHOLD = 8000.0;
 
 double current_distance = 0.00;
-double leftTurnFactor = 0.0;
-double rightTurnFactor = 0.0;
+// double leftTurnFactor = 0.0;
+// double rightTurnFactor = 0.0;
 
 double min = 0.0;
 
@@ -108,41 +108,47 @@ double distance() {
         return distance;
 }
 
-void turnRobot (int direction) {
+// void turnRobot (int direction) {
 
-    if (direction == 0) {
-        leftTurnFactor = 0.70;
-        rightTurnFactor = 1;
-	printf("turning LEFT\n");
+//     if (direction == 0) {
+//         leftTurnFactor = 0.70;
+//         rightTurnFactor = 1;
+// 	printf("turning LEFT\n");
 	
-    }
-    else if(direction == 1) {
-        leftTurnFactor = 0.85;
-        rightTurnFactor = 1;
-	printf("turning left\n");
+//     }
+//     else if(direction == 1) {
+//         leftTurnFactor = 0.85;
+//         rightTurnFactor = 1;
+// 	printf("turning left\n");
         
-    }
-    else if (direction == 2) {
-        leftTurnFactor = 1.0;
-        rightTurnFactor = 1.0;
-	printf("turning CENTER\n");
-    }
-    else if (direction == 3) {
-        leftTurnFactor = 1;
-        rightTurnFactor = 0.85;
-	printf("turning right\n");
-    }
-    else if (direction == 4) {
-        leftTurnFactor = 1;
-        rightTurnFactor = 0.70;
-	printf("turning RIGHT\n");
-    } else
-    {
-        leftTurnFactor = 0;
-        rightTurnFactor = 0;
-	printf("STOP\n");
-    }
-}
+//     }
+//     else if (direction == 2) {
+//         leftTurnFactor = 1.0;
+//         rightTurnFactor = 1.0;
+// 	printf("turning CENTER\n");
+//     }
+//     else if (direction == 3) {
+//         leftTurnFactor = 1;
+//         rightTurnFactor = 0.85;
+// 	printf("turning right\n");
+//     }
+//     else if (direction == 4) {
+//         leftTurnFactor = 1;
+//         rightTurnFactor = 0.70;
+// 	printf("turning RIGHT\n");
+//     } else
+//     {
+//         leftTurnFactor = 0;
+//         rightTurnFactor = 0;
+// 	printf("STOP\n");
+//     }
+// }
+
+void leftMultiple(int direction);
+double leftTurnFactor;
+
+void rightMultiple(int direction);
+double rightTurnFactor;
 
 void turnHead(int fd) {
 
@@ -204,7 +210,9 @@ void turnHead(int fd) {
 		    current_distance = min;
 	        }
 	}
-        turnRobot(direction);
+        //turnRobot(direction);
+        leftMultiple(direction);
+        rightMultiple(direction);
 }
 
 
